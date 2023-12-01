@@ -3,6 +3,13 @@ on:
   push:
     branches:
       - main
+
+
+env:
+  IMAGE_NAME: ${{ github.repository }}:${{ github.sha }}
+  IMAGE_PATH: images/alpine.dockerfile
+
+
 jobs:
   build:
     name: image scan
@@ -10,8 +17,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Build the image
+        run: docker build -t ${{ env.IMAGE_NAME }} ${{ env.IMAGE_PATH }}
       - name: Scan docker image with Checkov
         uses: bridgecrewio/checkov-action@v12
         with:
-          file: images/alpine.dockerfile
-          framework: dockerfile
+          dockerfile_path:  ${{ env.IMAGE_PATH }}
+          docker_image: ${{ env.IMAGE_NAME }}
