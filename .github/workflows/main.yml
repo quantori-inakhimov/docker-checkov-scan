@@ -18,9 +18,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: set up docker buildx
-        uses: actions/setup-buildx-actions@v3
+        uses: docker/setup-buildx-action@v3
       - name: Build the image
-        uses: actions/build-push-action@v5
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: images/alpine.dockerfile
