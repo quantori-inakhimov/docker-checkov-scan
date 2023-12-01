@@ -17,8 +17,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: set up docker buildx
+        uses: actions/setup-buildx-actions@v3
       - name: Build the image
-        run: docker build -f images/alpine.dockerfile -t alpine:${{ github.sha }} 
+        uses: actions/build-push-action@v5
+        with:
+          context: .
+          file: images/alpine.dockerfile
+          tags: alpine:${{ github.sha }}
       - name: Scan docker image with Checkov
         uses: bridgecrewio/checkov-action@v12
         with:
