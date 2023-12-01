@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Build the image
-        run: docker build -t alpine:${{ github.sha }} -f images/alpine.dockerfile
+        run: docker build -f images/alpine.dockerfile -t alpine:${{ github.sha }} 
       - name: Scan docker image with Checkov
         uses: bridgecrewio/checkov-action@v12
         with:
