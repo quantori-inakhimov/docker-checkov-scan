@@ -9,10 +9,6 @@ on:
 jobs:
   scan-image:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-      pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
