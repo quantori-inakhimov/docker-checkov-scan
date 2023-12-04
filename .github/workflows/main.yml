@@ -24,12 +24,12 @@ jobs:
         with:
           context: .
           file: images/alpine.dockerfile
-          tags: alpine:${{ github.sha }}
+          tags: alpine:test-tag
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'alpine:${{ github.sha }}'
+          image-ref: 'alpine:test-tag'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
