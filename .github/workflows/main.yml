@@ -13,7 +13,7 @@ jobs:
             password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the hello-docker Docker image
         run: |
-               docker build -f ./images/alpine.dockerfile --tag ghcr.io/quantori-inakhimov/alpine-test:latest
+               docker build -f ./images/alpine.dockerfile --tag ghcr.io/quantori-inakhimov/alpine-test:latest .
                
                docker push ghcr.io/quantori-inakhimov/alpine-test:latest
 
