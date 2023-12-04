@@ -14,6 +14,8 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Scan Docker image with Trivy
         run: |
           docker run --rm -v $(pwd):/workdir aquasec/trivy:latest --format json -o /workdir/trivy-results.json ${{ inputs.DOCKER_TAG }}
