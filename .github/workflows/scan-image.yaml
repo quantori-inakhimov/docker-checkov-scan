@@ -1,0 +1,23 @@
+name: Scan image
+on:
+  workflow_call:
+    inputs:
+      DOCKER_TAG:
+        type: string
+        required: true
+
+jobs:
+  scan-image:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Scan Docker image with Trivy
+        run: |
+          docker run --rm -v $(pwd):/workdir aquasec/trivy:latest --format json -o /workdir/trivy-results.json ${{ inputs.DOCKER_TAG }}
+
+      - name: Store Trivy results in a file
+        run: |
+          mv trivy-results.json ${{ github.workspace }}/trivy-results.json
