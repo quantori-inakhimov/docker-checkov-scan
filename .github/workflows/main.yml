@@ -26,15 +26,20 @@ jobs:
           file: images/alpine.dockerfile
           tags: image/alpine:test-tag
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+      - name: Scan image
+        uses: anchore/scan-action@v3
         with:
-          image-ref: 'image/alpine:test-tag'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+          image: "image/alpine:test-tag"
+
+      # - name: Run Trivy vulnerability scanner
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #     image-ref: 'image/alpine:test-tag'
+      #     format: 'table'
+      #     exit-code: '1'
+      #     ignore-unfixed: true
+      #     vuln-type: 'os,library'
+      #     severity: 'CRITICAL,HIGH'
           
   # scan:
   #   needs: ["build"]
