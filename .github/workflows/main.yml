@@ -26,8 +26,6 @@ jobs:
           file: images/alpine.dockerfile
           tags: alpine:${{ github.sha }}
       - name: Scan docker image with Checkov
-        uses: bridgecrewio/checkov-action@v12
+        uses: ./.github/workflows/scan-image.yaml
         with:
-          file: images/alpine.dockerfile
-          #docker_image: alpine:${{ github.sha }}
-          framework: dockerfile
+          DOCKER_TAG: alpine:${{ github.sha }}
