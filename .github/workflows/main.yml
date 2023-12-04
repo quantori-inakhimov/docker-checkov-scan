@@ -26,6 +26,6 @@ jobs:
           file: images/alpine.dockerfile
           tags: alpine:${{ github.sha }}
       - name: Scan docker image with Checkov
-        uses: ./.github/workflows/scan-image.yaml
+        uses: .github/workflows/scan-image.yaml
         with:
           DOCKER_TAG: alpine:${{ github.sha }}
