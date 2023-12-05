@@ -18,83 +18,35 @@ jobs:
                
                docker push ghcr.io/quantori-inakhimov/alpine-test:latest
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+      # - name: Run Trivy vulnerability scanner
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #     image-ref: 'ghcr.io/quantori-inakhimov/alpine-test:latest'
+      #     #format: 'table'
+      #     exit-code: '1'
+      #     ignore-unfixed: true
+      #     vuln-type: 'os,library'
+      #     severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
+      #     format: 'json'
+      #     output: 'trivy-results.json'
+
+      - name: Scan for vulnerabilities
+        uses: crazy-max/ghaction-container-scan@v3
         with:
-          image-ref: 'ghcr.io/quantori-inakhimov/alpine-test:latest'
-          #format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
-          format: 'json'
-          output: 'trivy-results.json'
+          image: ghcr.io/quantori-inakhimov/alpine-test:latest
+          annotations: true
           
       # - name: Upload Trivy scan results to GitHub Security tab
       #   uses: github/codeql-action/upload-sarif@v2
       #   with:
       #     sarif_file: 'trivy-results.sarif'
 
-      # - name: Publish Test Results
-      #   uses: EnricoMi/publish-unit-test-result-action@v2
+
+      # - uses: actions/upload-artifact@v3
       #   if: always()
+      #   name: publish results
       #   with:
-      #     files: |
-      #       trivy-results.json
-
-      - uses: actions/upload-artifact@v3
-        if: always()
-        name: publish results
-        with:
-          name: my-artifact
-          path: trivy-results.json
-
-# name: scan
-# on:
-#   push:
-#     branches:
-#       - main
+      #     name: my-artifact
+      #     path: trivy-results.json
 
 
-# env:
-#   IMAGE_NAME: ${{ github.repository }}:${{ github.sha }}
-#   IMAGE_PATH: images/alpine.dockerfile
-
-
-# jobs:
-#   build:
-#     name: image scan
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v3
-#       # - name: set up docker buildx
-#       #   uses: docker/setup-buildx-action@v3
-#       # - name: Build the image
-#       #   uses: docker/build-push-action@v5
-#       #   with:
-#       #     context: .
-#       #     file: images/alpine.dockerfile
-#       #     tags: image/alpine:test-tag
-
-#       # - name: Scan image
-#       #   uses: anchore/scan-action@v3
-#       #   with:
-#       #     image: "image/alpine:test-tag"
-
-#       - name: Run Trivy vulnerability scanner
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           image-ref: 'ghcr.io/quantori-inakhimov/alpine-test:latest'
-#           format: 'table'
-#           exit-code: '1'
-#           ignore-unfixed: true
-#           vuln-type: 'os,library'
-#           severity: 'CRITICAL,HIGH'
-          
-#   # scan:
-#   #   needs: ["build"]
-#   #   name: Scan docker image with Checkov
-#   #   uses: ./.github/workflows/scan-image.yaml
-#   #   with:
-#   #     DOCKER_TAG: alpine:${{ github.sha }}
