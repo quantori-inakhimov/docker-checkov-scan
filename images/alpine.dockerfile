@@ -1,4 +1,4 @@
-FROM wordpress:4.0
+FROM vulhub/openssl:1.0.1c
 
 #FROM ubuntu:latest
 #RUN mkdir /app
