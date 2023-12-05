@@ -35,14 +35,19 @@ jobs:
       #   with:
       #     sarif_file: 'trivy-results.sarif'
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+      # - name: Publish Test Results
+      #   uses: EnricoMi/publish-unit-test-result-action@v2
+      #   if: always()
+      #   with:
+      #     files: |
+      #       trivy-results.json
+
+      - uses: actions/upload-artifact@v3
         if: always()
+        name: publish results
         with:
-          files: |
-            trivy-results.json
-
-
+          name: my-artifact
+          path: trivy-results.json
 
 # name: scan
 # on:
